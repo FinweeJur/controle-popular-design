@@ -10,7 +10,9 @@
 | Pasta | O que é |
 |---|---|
 | [`temas/`](temas/) | Os 8 temas do portal (Pequi, Cerrado, Mata Atlântica, Caatinga, Pantanal, Claro, Escuro, Alto contraste) em CSS variables + metadados em JSON |
-| [`componentes/`](componentes/) | Peças prontas para copiar: sanfona (`<details>`) que se anuncia e seta de `<select>` com respiro |
+| [`componentes/`](componentes/) | Peças prontas para copiar: sanfona (`<details>`), seta de `<select>`, tabela ordenável, navbar, sumário, rodapé e robô |
+| [`efeitos/`](efeitos/) | CSS e JS dos efeitos + contador de números e barras |
+| [`fontes/`](fontes/) | Clash Display + General Sans via Fontshare, com os tokens de tipografia |
 | [`docs/`](docs/) | Princípios de design, as oito qualidades da informação e as regras de cada componente |
 | [`exemplos/`](exemplos/) | Galeria de demonstração com troca de tema ao vivo |
 
@@ -20,7 +22,9 @@
 2. [As oito qualidades da informação](docs/QUALIDADES-DA-INFORMACAO.md) — o
    contrato de dado do portal.
 3. [Sanfona](docs/SANFONA.md) — o componente de referência.
-4. [Temas](docs/TEMAS.md) — a paleta de cada bioma.
+4. [Casca](docs/CASCA.md) — navbar, sumário com Topo/Próxima, tabela, robô e rodapé.
+5. [Efeitos](docs/EFEITOS.md) — ímã, hover, pulso, brilho, borda elétrica e contador.
+6. [Temas](docs/TEMAS.md) — a paleta de cada bioma.
 
 ## Uso em 3 passos
 

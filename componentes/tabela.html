@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="pequi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tabela ordenável — Design System</title>
+<!--
+  TABELA ORDENÁVEL
+  ================
+  O cabeçalho inteiro é um botão; a seta e o `aria-sort` dizem o sentido.
+  Ordena texto (pt-BR), número e data. Sem JS, a tabela mostra a ordem do HTML.
+
+  Depende de: fontes/fontshare.css, temas/temas.css, componentes/shell.css e
+  componentes/shell.js.
+-->
+<link rel="stylesheet" href="../fontes/fontshare.css">
+<link rel="stylesheet" href="../temas/temas.css">
+<link rel="stylesheet" href="../componentes/shell.css">
+<style>
+  body { margin: 0; background: var(--cp-bg); color: var(--cp-text); line-height: 1.6; }
+  main { max-width: 62rem; margin: 0 auto; padding: 32px 16px 96px; }
+  h1 { font-size: 1.5rem; margin: 0 0 6px; }
+  .lead { color: var(--cp-text-soft); margin: 0 0 20px; }
+  .kicker { color: var(--cp-primary); font-size: 12px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; }
+  pre { margin-top: 20px; padding: 12px; overflow-x: auto; border-radius: 10px;
+    background: var(--cp-surface-2); border: 1px solid var(--cp-border); font-size: 13px; }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Componente</p>
+  <h1>Tabela ordenável</h1>
+  <p class="lead">Clique no cabeçalho. A seta muda de ↕ para ↑/↓ e o
+    <code>aria-sort</code> anuncia o sentido ao leitor de tela.</p>
+
+  <div class="tabela">
+    <table data-ordenavel>
+      <caption>Dados de exemplo — a ordenação funciona sem servidor.</caption>
+      <thead>
+        <tr>
+          <th scope="col" aria-sort="none">
+            <button type="button" data-ordenar="data">Data <span class="seta" aria-hidden="true">↕</span></button>
+          </th>
+          <th scope="col" aria-sort="none">
+            <button type="button" data-ordenar="texto">Órgão <span class="seta" aria-hidden="true">↕</span></button>
+          </th>
+          <th scope="col" aria-sort="none">
+            <button type="button" data-ordenar="texto">Assunto <span class="seta" aria-hidden="true">↕</span></button>
+          </th>
+          <th scope="col" aria-sort="none">
+            <button type="button" data-ordenar="numero">Valor <span class="seta" aria-hidden="true">↕</span></button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td data-valor="12/09/2026">12/09/2026</td><td>SEE/MG</td><td>Credenciamento</td><td data-valor="250000">R$ 250.000</td></tr>
+        <tr><td data-valor="15/09/2026">15/09/2026</td><td>IPSM</td><td>Inabilitação</td><td data-valor="98000">R$ 98.000</td></tr>
+        <tr><td data-valor="20/09/2026">20/09/2026</td><td>SEJUSP/MG</td><td>Chamamento público</td><td data-valor="1250000">R$ 1.250.000</td></tr>
+        <tr><td data-valor="02/10/2026">02/10/2026</td><td>SEMAD</td><td>Licenciamento</td><td data-valor="475000">R$ 475.000</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <pre>&lt;table data-ordenavel&gt;
+  &lt;thead&gt;&lt;tr&gt;
+    &lt;th scope="col" aria-sort="none"&gt;
+      &lt;button type="button" data-ordenar="data"&gt;Data &lt;span class="seta"&gt;↕&lt;/span&gt;&lt;/button&gt;
+    &lt;/th&gt;
+  &lt;/tr&gt;&lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;td data-valor="12/09/2026"&gt;12/09/2026&lt;/td&gt;…&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</pre>
+
+  <p class="lead" style="margin-top:20px">
+    Regras: uma coluna ordenável por botão, valor bruto em <code>data-valor</code>
+    (para número e data), e a tabela rola dentro do quadro — nunca estica a página.
+  </p>
+</main>
+<script src="../componentes/shell.js" defer></script>
+</body>
+</html>

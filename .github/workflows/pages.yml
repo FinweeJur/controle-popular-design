@@ -29,7 +29,7 @@ jobs:
       - name: Preparar o site
         run: |
           mkdir -p _site
-          cp -r exemplos temas componentes _site/
+          cp -r exemplos temas componentes efeitos fontes _site/
           # A raiz redireciona para a galeria, sem quebrar caminhos relativos.
           printf '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=exemplos/"><title>Design System — Controle Popular</title><a href="exemplos/">Abrir a galeria</a>' > _site/index.html
           find _site -maxdepth 2 -type f | sort

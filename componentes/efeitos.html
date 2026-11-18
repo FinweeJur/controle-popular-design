@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="pequi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Efeitos — Design System do Controle Popular</title>
+<!--
+  EFEITOS: ímã, hover, pulso, brilho, borda elétrica e contador.
+  ==============================================================
+  Abre direto no navegador. Depende de:
+    ../temas/temas.css      → tokens de cor do tema
+    ../efeitos/efeitos.css  → classes de efeito
+    ../efeitos/magnet.js    → ponteiro (ímã/brilho) + contador e barra
+
+  Regra de ouro: efeito é decoração. Sem JS e sem animação, o conteúdo
+  continua correto — inclusive os números, que já estão no HTML.
+-->
+<link rel="stylesheet" href="../temas/temas.css">
+<link rel="stylesheet" href="../efeitos/efeitos.css">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--cp-bg); color: var(--cp-text);
+    font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 62rem; margin: 0 auto; padding: 24px 16px 96px; }
+  h1 { font-size: clamp(1.4rem, 3vw, 2rem); margin: 0 0 6px; }
+  h2 { font-size: 1.1rem; margin: 0 0 4px; }
+  p { margin: 0; }
+  .lead { color: var(--cp-text-soft); max-width: 48rem; }
+  .kicker { color: var(--cp-primary); font-size: 12px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; }
+  .secao { margin-top: 36px; }
+  .grade { display: grid; gap: 14px; margin-top: 14px; }
+  @media (min-width: 760px) { .grade--2 { grid-template-columns: 1fr 1fr; } }
+  .cartao {
+    background: var(--cp-surface); border: 1px solid var(--cp-border);
+    border-radius: 14px; padding: 18px;
+  }
+  .cartao h3 { margin: 0 0 6px; font-size: 1rem; }
+  .cartao p { color: var(--cp-text-soft); font-size: .95rem; }
+  .botao {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 36px; padding: 8px 14px; border-radius: 8px; border: 1px solid transparent;
+    background: var(--cp-primary); color: var(--cp-primary-ink);
+    font-size: 14px; font-weight: 700; cursor: pointer; text-decoration: none;
+  }
+  .selo {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border-radius: 9999px;
+    background: var(--cp-surface-2); border: 1px solid var(--cp-border);
+    color: var(--cp-primary); font-weight: 800;
+  }
+  .numeros { display: flex; flex-wrap: wrap; gap: 28px; margin-top: 12px; }
+  .numero { min-width: 140px; }
+  .numero .rotulo { font-size: 12px; color: var(--cp-text-soft); text-transform: uppercase; letter-spacing: .05em; }
+  .numero .valor { font-size: 1.8rem; line-height: 1.1; }
+  .barra { margin-top: 10px; }
+  .barra__rotulo { display: flex; justify-content: space-between; font-size: 12px; color: var(--cp-text-soft); margin-bottom: 4px; }
+  pre {
+    margin: 12px 0 0; padding: 12px; overflow-x: auto; border-radius: 10px;
+    background: var(--cp-surface-2); border: 1px solid var(--cp-border);
+    font-size: 13px; line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="kicker">Controle Popular · efeitos</p>
+    <h1>Movimento que orienta, não que enfeita</h1>
+    <p class="lead">
+      Ímã, hover, pulso, brilho, borda elétrica e contador. Tudo em CSS e um
+      arquivo de JS; tudo para em <code>prefers-reduced-motion</code>; no dedo,
+      nada segue o ponteiro.
+    </p>
+  </header>
+
+  <section class="secao" aria-labelledby="e-hover">
+    <h2 id="e-hover">Hover: elevação e brilho</h2>
+    <p class="lead">O cartão sobe 2 px; o brilho segue o ponteiro dentro dele.</p>
+    <div class="grade grade--2">
+      <article class="cartao eleva">
+        <h3>Elevação</h3>
+        <p>Classe <code>.eleva</code> — transform e sombra, sem glow competindo.</p>
+      </article>
+      <article class="cartao brilho" data-brilho>
+        <h3>Brilho que segue o ponteiro</h3>
+        <p>Classe <code>.brilho</code> + <code>data-brilho</code>. A posição vai
+          para <code>--mx</code>/<code>--my</code>.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="secao" aria-labelledby="e-pulso">
+    <h2 id="e-pulso">Pulso e ímã</h2>
+    <p class="lead">O pulso chama o clique; o ímã puxa de leve, sem tirar a leitura do lugar.</p>
+    <div class="grade grade--2">
+      <article class="cartao">
+        <h3>Pulso</h3>
+        <p style="display:flex;align-items:center;gap:14px;margin-top:10px">
+          <span class="selo pulso" aria-hidden="true">↗</span>
+          <span>Classe <code>.pulso</code>: anel de 2 px que se expande.</span>
+        </p>
+      </article>
+      <article class="cartao">
+        <h3>Ímã</h3>
+        <p style="margin-top:10px">
+          <a class="botao magnet" data-magnet data-forca="0.3" data-afastamento="60" href="#e-pulso">
+            Passe o mouse perto
+          </a>
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="secao" aria-labelledby="e-eletrico">
+    <h2 id="e-eletrico">Borda elétrica (electric card)</h2>
+    <p class="lead">Gradiente cônico girando atrás do miolo; padrão Lightswind.</p>
+    <div class="eletrico" style="margin-top:14px;max-width:34rem">
+      <div class="eletrico__miolo">
+        <h3 style="margin:0 0 6px">Cartão com borda viva</h3>
+        <p style="color:var(--cp-text-soft);margin:0">
+          O contêiner tem 1 px de padding e o miolo é opaco. A borda é o
+          gradiente aparecendo por esse respiro.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao" aria-labelledby="e-contador">
+    <h2 id="e-contador">Contador e barras</h2>
+    <p class="lead">
+      O HTML já traz o valor final; o JS anima de 0 até ele. Robô, leitor de tela
+      e quem pediu menos movimento leem o número certo.
+    </p>
+    <div class="cartao" style="margin-top:14px">
+      <div class="numeros">
+        <div class="numero">
+          <p class="rotulo">Registros</p>
+          <p class="valor contador" data-contador="337">337</p>
+        </div>
+        <div class="numero">
+          <p class="rotulo">Valor</p>
+          <p class="valor contador" data-contador="1250000" data-prefixo="R$ ">R$ 1.250.000</p>
+        </div>
+        <div class="numero">
+          <p class="rotulo">Conclusão</p>
+          <p class="valor contador" data-contador="61" data-sufixo="%">61%</p>
+        </div>
+      </div>
+
+      <div class="barra">
+        <div class="barra__rotulo"><span>Plano de fauna</span><span>61%</span></div>
+        <div class="barra"><div class="barra__preenchida" style="--valor:61%"></div></div>
+      </div>
+      <div class="barra">
+        <div class="barra__rotulo"><span>Revegetação</span><span>75%</span></div>
+        <div class="barra"><div class="barra__preenchida" style="--valor:75%"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao" aria-labelledby="e-codigo">
+    <h2 id="e-codigo">Como usar</h2>
+    <pre>&lt;link rel="stylesheet" href="temas/temas.css"&gt;
+&lt;link rel="stylesheet" href="efeitos/efeitos.css"&gt;
+&lt;script src="efeitos/magnet.js" defer&gt;&lt;/script&gt;
+
+&lt;article class="cartao eleva"&gt;…&lt;/article&gt;
+&lt;article class="cartao brilho" data-brilho&gt;…&lt;/article&gt;
+&lt;a class="botao magnet" data-magnet data-forca="0.3"&gt;…&lt;/a&gt;
+&lt;span class="contador" data-contador="337"&gt;337&lt;/span&gt;
+&lt;div class="barra"&gt;&lt;div class="barra__preenchida" style="--valor:61%"&gt;&lt;/div&gt;&lt;/div&gt;</pre>
+  </section>
+</main>
+<script src="../efeitos/magnet.js" defer></script>
+</body>
+</html>
