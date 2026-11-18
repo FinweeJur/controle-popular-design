@@ -44,6 +44,7 @@
 }
 .topo__marca {
   display: inline-flex;
+  white-space: nowrap;
   align-items: center;
   gap: 10px;
   color: var(--cp-text);
@@ -141,7 +142,10 @@
   right: 0;
   top: calc(100% + 8px);
   z-index: 50;
-  width: min(20rem, calc(100vw - 2rem));
+  width: min(20rem, calc(100vw - 1rem));
+  max-height: min(70vh, 24rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   margin: 0;
   padding: 6px;
   list-style: none;
@@ -151,6 +155,14 @@
   box-shadow: 0 20px 48px rgb(0 0 0 / 0.35);
 }
 .temas__lista[hidden] { display: none; }
+
+/* No celular o seletor mostra só as cores e o emoji: o nome do tema roubaria
+   a largura e faria a marca quebrar em duas linhas (medido 18/11/2026). */
+@media (max-width: 720px) {
+  .temas__botao { gap: 6px; padding: 6px 8px; }
+  .temas__botao [data-temas-nome] { display: none; }
+  .temas__lista { width: min(17rem, calc(100vw - 1rem)); max-height: min(60vh, 22rem); }
+}
 .temas__opcao {
   display: flex;
   align-items: center;

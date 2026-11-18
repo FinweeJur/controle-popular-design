@@ -2,7 +2,7 @@
   {
     "id": "pequi",
     "nome": "Pequi",
-    "emoji": "🌳",
+    "emoji": "🌰",
     "cor": "#f2701d",
     "cor2": "#0d0b08",
     "descricao": "Laranja & preto",
@@ -11,7 +11,7 @@
   {
     "id": "cerrado",
     "nome": "Cerrado",
-    "emoji": "🌳",
+    "emoji": "🌾",
     "cor": "#c97b5a",
     "cor2": "#ffc300",
     "descricao": "Terracota & ipê"
@@ -19,7 +19,7 @@
   {
     "id": "mata-atlantica",
     "nome": "Mata Atlântica",
-    "emoji": "🌳",
+    "emoji": "🌿",
     "cor": "#3a6b35",
     "cor2": "#ffd700",
     "descricao": "Verde-serra & dourado"
@@ -27,7 +27,7 @@
   {
     "id": "caatinga",
     "nome": "Caatinga",
-    "emoji": "🌳",
+    "emoji": "🌵",
     "cor": "#d97724",
     "cor2": "#eab308",
     "descricao": "Âmbar & sol do sertão"
