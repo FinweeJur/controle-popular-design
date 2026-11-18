@@ -133,7 +133,7 @@
   color: var(--cp-text);
   transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
 }
-.topo__github svg { width: 18px; height: 18px; }
+.topo__github svg { width: 18px; height: 18px; flex: none; }
 .topo__github:hover {
   border-color: var(--cp-primary);
   color: var(--cp-primary);
@@ -512,7 +512,7 @@
   text-decoration: none;
   transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
 }
-.rodape__github svg { width: 18px; height: 18px; }
+.rodape__github svg { width: 18px; height: 18px; flex: none; }
 .rodape__github:hover {
   border-color: var(--cp-primary);
   color: var(--cp-primary);

@@ -223,6 +223,7 @@
     var entrada = raiz.querySelector("[data-robo-input]");
     var mensagens = raiz.querySelector("[data-robo-mensagens]");
     var fechar = raiz.querySelector("[data-robo-fechar]");
+    var pensando = raiz.querySelector("[data-robo-pensando]");
 
     function abrir(estado) {
       painel.dataset.aberto = String(estado);
@@ -252,13 +253,15 @@
         if (!texto) return;
         bolha(texto, "pessoa");
         entrada.value = "";
-        // Demonstração: resposta fixa, sem chamada de rede.
+        // O orbe mostra "consultando"; a resposta é demonstração, sem rede.
+        if (pensando) pensando.hidden = false;
         setTimeout(function () {
+          if (pensando) pensando.hidden = true;
           bolha(
             "Esta é uma demonstração de interface. No portal, o robô consulta o acervo e responde com link para a fonte oficial.",
             "robo"
           );
-        }, 400);
+        }, 700);
       });
     }
   }

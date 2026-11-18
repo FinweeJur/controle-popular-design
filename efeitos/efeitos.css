@@ -144,10 +144,42 @@
   font-weight: 700;
 }
 
+/* ── Orbe de pensamento (indicador de IA) ───────────────────────────────
+   Inspirado no padrão "thinking orbs": três pontos em órbita para dizer
+   "estou consultando". É decoração com função de espera — o texto da
+   resposta é que informa. Para em `prefers-reduced-motion` e no alto
+   contraste (onde a cor não deve ser o sinal). */
+.orbe {
+  position: relative;
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  vertical-align: middle;
+  animation: cp-orbe-gira 2.4s linear infinite;
+}
+.orbe span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 9999px;
+  background: var(--cp-primary);
+  transform-origin: 0 0;
+}
+.orbe span:nth-child(1) { transform: rotate(0deg) translateX(9px); opacity: 0.95; }
+.orbe span:nth-child(2) { transform: rotate(120deg) translateX(9px); opacity: 0.65; }
+.orbe span:nth-child(3) { transform: rotate(240deg) translateX(9px); opacity: 0.4; }
+@keyframes cp-orbe-gira {
+  to { transform: rotate(360deg); }
+}
+
 /* ── Guarda geral ──────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .pulso::after,
-  .eletrico::before {
+  .eletrico::before,
+  .orbe {
     animation: none;
   }
   .eleva,
