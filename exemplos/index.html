@@ -105,9 +105,13 @@
   .campo input, .campo select {
     min-height: 36px; padding: 8px 12px;
     border-radius: 8px; border: 1px solid var(--cp-border);
-    background: var(--cp-surface); color: var(--cp-text);
+    /* `background-color`, não `background`: o atalho apagaria o chevron
+       que vem de componentes/select.css. */
+    background-color: var(--cp-surface); color: var(--cp-text);
     font-size: 14px;
   }
+  /* A seta precisa dos 36 px de área de texto da regra do select. */
+  .campo select { padding-right: 2.25rem; }
   .campo input:focus-visible, .campo select:focus-visible {
     outline: 2px solid var(--cp-focus); outline-offset: 1px;
   }

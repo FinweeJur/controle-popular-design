@@ -9,6 +9,9 @@
 
    Quem já desenha o próprio ícone marca `class="appearance-none"` e fica de
    fora — não recebe um segundo chevron.
+
+   Ao estilizar o campo no seu site, use `background-color` (não o atalho
+   `background`, que apaga o chevron) e não zere o `padding-right`.
    ══════════════════════════════════════════════════════════════════════════ */
 
 select:not(.appearance-none) {
