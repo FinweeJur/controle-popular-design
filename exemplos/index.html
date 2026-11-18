@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="pequi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design System — Controle Popular</title>
+<!--
+  GALERIA DO DESIGN SYSTEM
+  ========================
+  Abre direto no navegador (file://) — sem servidor, sem build.
+  Os tokens vêm de ../temas/temas.css; o select, de
+  ../componentes/select.css; a sanfona, de ../componentes/sanfona.html.
+
+  O seletor de tema no topo troca `data-theme` no <html> e guarda a escolha
+  em localStorage. Os 8 temas estão listados em JS porque `fetch` não lê
+  arquivo local em file:// — a fonte canônica segue sendo temas/temas.json.
+-->
+<link rel="stylesheet" href="../temas/temas.css">
+<link rel="stylesheet" href="../componentes/select.css">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--cp-bg);
+    color: var(--cp-text);
+    font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  .pagina { max-width: 62rem; margin: 0 auto; padding: 24px 16px 96px; }
+  h1, h2, h3 { line-height: 1.25; margin: 0; }
+  h1 { font-size: clamp(1.5rem, 3.2vw, 2.2rem); }
+  h2 { font-size: 1.2rem; margin-top: 8px; }
+  h3 { font-size: 1rem; }
+  p { margin: 0; }
+  .lead { color: var(--cp-text-soft); font-size: 1.02rem; max-width: 46rem; }
+  .kicker {
+    color: var(--cp-primary);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .secao { margin-top: 40px; }
+  .secao > header { display: grid; gap: 4px; margin-bottom: 14px; }
+  .grade { display: grid; gap: 12px; }
+  @media (min-width: 720px) { .grade--2 { grid-template-columns: 1fr 1fr; } }
+
+  /* ── Seletor de tema ─────────────────────────────────────────────── */
+  .temas { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .temas button {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 10px; min-height: 36px;
+    border-radius: 9999px;
+    border: 1px solid var(--cp-border);
+    background: var(--cp-surface);
+    color: var(--cp-text);
+    font-size: 12px; font-weight: 600; cursor: pointer;
+  }
+  .temas button:hover { border-color: var(--cp-primary); color: var(--cp-primary); }
+  .temas button[aria-pressed="true"] {
+    border-color: var(--cp-primary);
+    background: color-mix(in srgb, var(--cp-primary) 18%, transparent);
+    color: var(--cp-primary);
+  }
+  .temas .bolinhas { display: inline-flex; gap: 3px; }
+  .temas .bolinha { width: 10px; height: 10px; border-radius: 9999px; box-shadow: 0 0 0 1px var(--cp-border); }
+
+  /* ── Superfícies ─────────────────────────────────────────────────── */
+  .cartao {
+    background: var(--cp-surface);
+    border: 1px solid var(--cp-border);
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .cartao--2 { background: var(--cp-surface-2); }
+  .selo {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 2px 8px; border-radius: 9999px;
+    border: 1px solid var(--cp-border);
+    background: var(--cp-surface-2);
+    color: var(--cp-text-soft);
+    font-size: 12px; font-weight: 600;
+  }
+
+  /* ── Botões ──────────────────────────────────────────────────────── */
+  .botao {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 36px; padding: 8px 14px;
+    border-radius: 8px; border: 1px solid transparent;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: filter 0.15s ease, background-color 0.15s ease;
+  }
+  .botao--primario { background: var(--cp-primary); color: var(--cp-primary-ink); }
+  .botao--primario:hover { filter: brightness(1.08); }
+  .botao--contorno {
+    background: transparent; color: var(--cp-text);
+    border-color: var(--cp-border);
+  }
+  .botao--contorno:hover { border-color: var(--cp-primary); color: var(--cp-primary); }
+  .botao:focus-visible { outline: 2px solid var(--cp-focus); outline-offset: 2px; }
+
+  /* ── Formulário ──────────────────────────────────────────────────── */
+  .campo { display: grid; gap: 6px; }
+  .campo label { font-size: 12px; font-weight: 600; color: var(--cp-text-soft); }
+  .campo input, .campo select {
+    min-height: 36px; padding: 8px 12px;
+    border-radius: 8px; border: 1px solid var(--cp-border);
+    background: var(--cp-surface); color: var(--cp-text);
+    font-size: 14px;
+  }
+  .campo input:focus-visible, .campo select:focus-visible {
+    outline: 2px solid var(--cp-focus); outline-offset: 1px;
+  }
+
+  /* ── Sanfona (mesma anatomia do componente canônico) ─────────────── */
+  .sanfona {
+    border: 1px solid var(--cp-border); border-radius: 12px;
+    background: var(--cp-surface);
+    transition: border-color 0.2s ease;
+  }
+  .sanfona:hover { border-color: color-mix(in srgb, var(--cp-primary) 60%, transparent); }
+  .sanfona[open] { border-color: color-mix(in srgb, var(--cp-primary) 40%, transparent); }
+  .sanfona > summary {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px; border-radius: 12px;
+    cursor: pointer; list-style: none;
+    transition: background-color 0.2s ease;
+  }
+  .sanfona > summary::-webkit-details-marker { display: none; }
+  .sanfona > summary:hover { background: color-mix(in srgb, var(--cp-surface-2) 60%, transparent); }
+  .sanfona > summary:focus-visible { outline: 2px solid var(--cp-focus); outline-offset: 2px; }
+  .sanfona__titulo { flex: 1; min-width: 0; font-weight: 600; }
+  .sanfona__dica {
+    display: none; font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.04em; color: var(--cp-text-soft);
+  }
+  @media (min-width: 640px) { .sanfona__dica { display: inline; } }
+  .sanfona[open] .sanfona__dica--abrir { display: none; }
+  .sanfona:not([open]) .sanfona__dica--fechar { display: none; }
+  .sanfona__seta {
+    position: relative; display: inline-flex; flex-shrink: 0;
+    align-items: center; justify-content: center;
+    width: 28px; height: 28px;
+    border: 1px solid var(--cp-border); border-radius: 9999px;
+    background: var(--cp-surface-2); color: var(--cp-primary);
+    transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  }
+  .sanfona__seta svg { width: 16px; height: 16px; }
+  .sanfona__seta::after {
+    content: ""; position: absolute; inset: -2px;
+    border: 2px solid var(--cp-primary); border-radius: inherit;
+    opacity: 0; animation: anel 2.6s ease-out infinite;
+  }
+  .sanfona[open] .sanfona__seta { transform: rotate(180deg); border-color: var(--cp-primary); }
+  .sanfona[open] .sanfona__seta::after { animation: none; opacity: 0; }
+  .sanfona > summary:hover .sanfona__seta,
+  .sanfona > summary:focus-visible .sanfona__seta {
+    background: var(--cp-surface); border-color: var(--cp-primary);
+  }
+  @keyframes anel {
+    0% { transform: scale(0.9); opacity: 0.45; }
+    70%, 100% { transform: scale(1.35); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sanfona__seta, .sanfona__seta::after { animation: none; transition: none; }
+  }
+  .sanfona__corpo {
+    border-top: 1px solid color-mix(in srgb, var(--cp-border) 60%, transparent);
+    padding: 12px 16px 16px; color: var(--cp-text-soft); font-size: 0.95rem;
+  }
+
+  /* ── Tabela com rolagem interna ──────────────────────────────────── */
+  .rolagem { overflow-x: auto; border-radius: 12px; border: 1px solid var(--cp-border); }
+  table { width: 100%; min-width: 560px; border-collapse: collapse; font-size: 14px; }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--cp-border); }
+  th { color: var(--cp-text); font-weight: 600; background: var(--cp-surface-2); }
+  td { color: var(--cp-text-soft); }
+  tbody tr:last-child td { border-bottom: none; }
+</style>
+</head>
+<body>
+<main class="pagina">
+  <header>
+    <p class="kicker">Controle Popular</p>
+    <h1>Design system</h1>
+    <p class="lead">
+      Tokens, componentes e regras do portal cívico. Troque o tema abaixo — a
+      página inteira responde, inclusive a lista aberta dos selects.
+    </p>
+    <div class="temas" id="temas" role="group" aria-label="Escolher tema"></div>
+  </header>
+
+  <section class="secao" aria-labelledby="t-tipografia">
+    <header>
+      <h2 id="t-tipografia">Tipografia e superfícies</h2>
+      <p class="lead">Texto principal, texto secundário e dois níveis de cartão.</p>
+    </header>
+    <div class="grade grade--2">
+      <article class="cartao">
+        <p class="kicker">Superfície</p>
+        <h3>Cartão padrão</h3>
+        <p>Parágrafo de leitura com <strong>rótulo em destaque</strong> e dado ao lado.
+          O fundo usa <code>--cp-surface</code> e a borda <code>--cp-border</code>.</p>
+      </article>
+      <article class="cartao cartao--2">
+        <p class="kicker">Superfície 2</p>
+        <h3>Cartão elevado</h3>
+        <p>Segundo nível para blocos dentro de blocos, sem competir com o texto.</p>
+        <p style="margin-top:10px"><span class="selo">● Medido</span></p>
+      </article>
+    </div>
+  </section>
+
+  <section class="secao" aria-labelledby="t-botoes">
+    <header>
+      <h2 id="t-botoes">Botões</h2>
+      <p class="lead">Alvo mínimo de 36 px, hover e foco visível.</p>
+    </header>
+    <p style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="botao botao--primario" type="button">Ação principal</button>
+      <button class="botao botao--contorno" type="button">Ação secundária</button>
+    </p>
+  </section>
+
+  <section class="secao" aria-labelledby="t-form">
+    <header>
+      <h2 id="t-form">Formulário</h2>
+      <p class="lead">Select com chevron próprio, 12 px de respiro e 36 px de área de texto.</p>
+    </header>
+    <div class="grade grade--2">
+      <div class="campo">
+        <label for="filtro-tema">Tema do filtro</label>
+        <select id="filtro-tema">
+          <option>Todos os temas</option>
+          <option>Barragens</option>
+          <option>Licenciamento</option>
+          <option>Terras</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label for="filtro-busca">Buscar</label>
+        <input id="filtro-busca" type="search" placeholder="Nome, cidade ou órgão">
+      </div>
+    </div>
+  </section>
+
+  <section class="secao" aria-labelledby="t-sanfona">
+    <header>
+      <h2 id="t-sanfona">Sanfona que se anuncia</h2>
+      <p class="lead">Seta que gira, pulso no selo, “Abrir/Fechar” e foco de teclado.</p>
+    </header>
+    <div class="grade">
+      <details class="sanfona">
+        <summary>
+          <span class="sanfona__titulo">Flora e vegetação</span>
+          <span class="sanfona__dica sanfona__dica--abrir" aria-hidden="true">Abrir</span>
+          <span class="sanfona__dica sanfona__dica--fechar" aria-hidden="true">Fechar</span>
+          <span class="sanfona__seta" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2"
+                 stroke-linecap="round" stroke-linejoin="round"><path d="M6 8l4 4 4-4"/></svg>
+          </span>
+        </summary>
+        <div class="sanfona__corpo">
+          <p><strong style="color:var(--cp-text)">Estado geral.</strong>
+            Conteúdo revelado ao abrir, com o rótulo em destaque e o dado logo ao lado.</p>
+        </div>
+      </details>
+      <details class="sanfona">
+        <summary>
+          <span class="sanfona__titulo">Saúde humana e risco ecológico</span>
+          <span class="sanfona__dica sanfona__dica--abrir" aria-hidden="true">Abrir</span>
+          <span class="sanfona__dica sanfona__dica--fechar" aria-hidden="true">Fechar</span>
+          <span class="sanfona__seta" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2"
+                 stroke-linecap="round" stroke-linejoin="round"><path d="M6 8l4 4 4-4"/></svg>
+          </span>
+        </summary>
+        <div class="sanfona__corpo">
+          <p>Segundo bloco, fechado por padrão.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section class="secao" aria-labelledby="t-tabela">
+    <header>
+      <h2 id="t-tabela">Tabela com rolagem interna</h2>
+      <p class="lead">A tabela rola dentro do quadro; a página nunca ganha rolagem lateral.</p>
+    </header>
+    <div class="rolagem">
+      <table>
+        <caption class="sr-only">Exemplo de tabela</caption>
+        <thead>
+          <tr><th scope="col">Data</th><th scope="col">Órgão</th><th scope="col">Assunto</th><th scope="col">Fonte</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>12/09/2026</td><td>SEE/MG</td><td>Credenciamento</td><td>Diário Oficial</td></tr>
+          <tr><td>15/09/2026</td><td>IPSM</td><td>Inabilitação</td><td>Diário Oficial</td></tr>
+          <tr><td>20/09/2026</td><td>SEJUSP/MG</td><td>Chamamento público</td><td>Diário Oficial</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="secao">
+    <p class="lead">
+      Regras completas em <code>docs/</code>. Componentes para copiar em
+      <code>componentes/</code>. Tokens em <code>temas/</code>.
+    </p>
+  </footer>
+</main>
+
+<script>
+  // Lista espelhada de temas/temas.json (fetch não lê file://).
+  const TEMAS = [
+    { id: "pequi", nome: "Pequi", cor: "#f2701d", cor2: "#0d0b08" },
+    { id: "cerrado", nome: "Cerrado", cor: "#c97b5a", cor2: "#ffc300" },
+    { id: "mata-atlantica", nome: "Mata Atlântica", cor: "#3a6b35", cor2: "#ffd700" },
+    { id: "caatinga", nome: "Caatinga", cor: "#d97724", cor2: "#eab308" },
+    { id: "pantanal", nome: "Pantanal", cor: "#0284c7", cor2: "#f59e0b" },
+    { id: "light", nome: "Claro", cor: "#12467b", cor2: "#f7f8fa" },
+    { id: "dark", nome: "Escuro", cor: "#4a90d9", cor2: "#0b1220" },
+    { id: "high-contrast", nome: "Alto contraste", cor: "#000000", cor2: "#ffffff" },
+  ];
+
+  const caixa = document.getElementById("temas");
+
+  function aplicar(id) {
+    document.documentElement.dataset.theme = id;
+    localStorage.setItem("ds-tema", id);
+    [...caixa.children].forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.tema === id)));
+  }
+
+  TEMAS.forEach((t) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.dataset.tema = t.id;
+    b.setAttribute("aria-pressed", "false");
+    b.innerHTML =
+      '<span class="bolinhas" aria-hidden="true">' +
+      '<span class="bolinha" style="background:' + t.cor + '"></span>' +
+      '<span class="bolinha" style="background:' + t.cor2 + '"></span>' +
+      "</span>" + t.nome;
+    b.addEventListener("click", () => aplicar(t.id));
+    caixa.appendChild(b);
+  });
+
+  aplicar(localStorage.getItem("ds-tema") || "pequi");
+</script>
+</body>
+</html>

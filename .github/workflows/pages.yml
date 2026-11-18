@@ -1,0 +1,41 @@
+name: Publicar a galeria (GitHub Pages)
+
+# Publica a árvore estática em https://finweejur.github.io/controle-popular-design/
+# Nada para compilar: a galeria já é HTML/CSS puro e usa caminhos relativos
+# (`../temas`, `../componentes`), então a estrutura de pastas é preservada.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Preparar o site
+        run: |
+          mkdir -p _site
+          cp -r exemplos temas componentes _site/
+          # A raiz redireciona para a galeria, sem quebrar caminhos relativos.
+          printf '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=exemplos/"><title>Design System — Controle Popular</title><a href="exemplos/">Abrir a galeria</a>' > _site/index.html
+          find _site -maxdepth 2 -type f | sort
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deploy
+        uses: actions/deploy-pages@v4
