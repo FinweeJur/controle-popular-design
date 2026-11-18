@@ -25,7 +25,8 @@
 4. [Casca](docs/CASCA.md) — navbar, sumário com Topo/Próxima, tabela, robô e rodapé.
 5. [Efeitos](docs/EFEITOS.md) — ímã, hover, pulso, brilho, borda elétrica e contador.
 6. [Temas](docs/TEMAS.md) — a paleta de cada bioma.
-7. [Referências](docs/REFERENCIAS.md) — o que vale extrair de fora, com licença e peso na balança.
+7. [Prompt para agente](docs/PROMPT-AGENTE.md) — texto pronto para colar no seu agente de IA.
+8. [Referências](docs/REFERENCIAS.md) — o que vale extrair de fora, com licença e peso na balança.
 
 ## Uso em 3 passos
 

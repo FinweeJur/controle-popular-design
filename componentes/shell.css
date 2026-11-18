@@ -107,6 +107,120 @@
   font-size: 13px;
   font-weight: 600;
 }
+
+/* ── Menu de temas (bolinhas + emoji + nome) ──────────────────────────────
+   <select> não mostra cor: as opções nativas são texto. Aqui um botão abre
+   uma lista com os dois swatches do bioma, o emoji e a descrição, para a
+   identidade de cada tema ficar visível antes de escolher. */
+.temas { position: relative; }
+.temas__botao {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--cp-border);
+  background: var(--cp-surface);
+  color: var(--cp-text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.temas__botao:hover { border-color: var(--cp-primary); color: var(--cp-primary); }
+.temas__botao:focus-visible { outline: 2px solid var(--cp-focus); outline-offset: 2px; }
+.temas__bolinhas { display: inline-flex; gap: 3px; }
+.temas__bolinha {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  box-shadow: 0 0 0 1px var(--cp-border);
+}
+.temas__lista {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 50;
+  width: min(20rem, calc(100vw - 2rem));
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border: 1px solid var(--cp-border);
+  border-radius: 12px;
+  background: var(--cp-surface);
+  box-shadow: 0 20px 48px rgb(0 0 0 / 0.35);
+}
+.temas__lista[hidden] { display: none; }
+.temas__opcao {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--cp-text);
+  text-align: left;
+  cursor: pointer;
+}
+.temas__opcao:hover { background: var(--cp-surface-2); }
+.temas__opcao[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--cp-primary) 12%, transparent);
+  box-shadow: inset 2px 0 0 var(--cp-primary);
+}
+.temas__opcao:focus-visible { outline: 2px solid var(--cp-focus); outline-offset: -2px; }
+.temas__opcao .emoji { font-size: 16px; line-height: 1; }
+.temas__opcao .nome { font-size: 13px; font-weight: 600; }
+.temas__opcao .desc { font-size: 12px; color: var(--cp-text-soft); }
+
+/* ── Caixa de prompt copiável ──────────────────────────────────────────── */
+.prompt { border: 1px solid var(--cp-border); border-radius: 14px; background: var(--cp-surface); overflow: hidden; }
+.prompt__topo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--cp-border);
+  background: var(--cp-surface-2);
+}
+.prompt__topo strong { font-size: 13px; }
+.prompt__acoes { display: inline-flex; align-items: center; gap: 8px; }
+.prompt__dica { font-size: 12px; color: var(--cp-text-soft); }
+.prompt__copiar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 0;
+  background: var(--cp-primary);
+  color: var(--cp-primary-ink);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.15s ease, background-color 0.15s ease;
+}
+.prompt__copiar:hover { filter: brightness(1.08); }
+.prompt__copiar:focus-visible { outline: 2px solid var(--cp-focus); outline-offset: 2px; }
+.prompt__copiar.copiado { background: var(--cp-accent, var(--cp-primary)); }
+.prompt__codigo {
+  margin: 0;
+  padding: 14px;
+  max-height: 22rem;
+  overflow: auto;
+  background: var(--cp-bg);
+  color: var(--cp-text);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 12.5px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
 .topo__menu {
   display: inline-flex;
   align-items: center;

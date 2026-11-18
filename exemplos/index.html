@@ -162,7 +162,16 @@
          title="Repositório no GitHub">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
       </a>
-      <select class="topo__tema" id="tema" aria-label="Tema do site"></select>
+      <div class="temas" data-temas>
+        <button class="temas__botao" type="button" data-temas-botao
+                aria-expanded="false" aria-controls="temas-lista" aria-label="Tema do site">
+          <span class="temas__bolinhas" data-temas-bolinhas aria-hidden="true"></span>
+          <span data-temas-emoji aria-hidden="true">🌳</span>
+          <span data-temas-nome>Pequi</span>
+          <span aria-hidden="true">▾</span>
+        </button>
+        <ul class="temas__lista" id="temas-lista" data-temas-lista hidden></ul>
+      </div>
       <button class="topo__menu" type="button" data-menu-toggle
               aria-expanded="false" aria-controls="gaveta" aria-label="Abrir menu">☰</button>
     </div>
@@ -365,6 +374,52 @@
       </div>
     </section>
 
+    <section class="secao" id="prompt" aria-labelledby="h-prompt">
+      <header>
+        <h2 id="h-prompt" tabindex="-1">Prompt para agente de IA</h2>
+        <p class="lead">
+          Copie e cole no seu agente (Claude Code, Codex, Cursor, Copilot). O texto
+          entrega o repositório, as regras de qualidade e os componentes prontos.
+        </p>
+      </header>
+      <div class="prompt">
+        <div class="prompt__topo">
+          <strong>Prompt pronto — um clique</strong>
+          <div class="prompt__acoes">
+            <span class="prompt__dica">depois, cole com Ctrl+V no agente</span>
+            <button class="prompt__copiar" type="button" data-copiar="#prompt-agente"
+                    data-rotulo="Copiar prompt">Copiar prompt</button>
+          </div>
+        </div>
+        <pre class="prompt__codigo" id="prompt-agente">Você vai construir ou ajustar uma página com o Design System do Controle Popular.
+
+Repositório: https://github.com/FinweeJur/controle-popular-design
+Galeria: https://finweejur.github.io/controle-popular-design/exemplos/
+
+1. Leia docs/PRINCIPIOS.md e docs/QUALIDADES-DA-INFORMACAO.md antes de escrever código.
+2. Carregue, nesta ordem: fontes/fontshare.css, temas/temas.css, componentes/shell.css,
+   componentes/select.css e efeitos/efeitos.css.
+3. Escolha o tema em &lt;html data-theme="pequi"&gt; — Pequi, Cerrado, Mata Atlântica,
+   Caatinga, Pantanal, Claro, Escuro ou Alto contraste.
+4. Use só tokens --cp-*; nunca hex solto. Texto ≥ 12 px, alvo de toque ≥ 36 px,
+   contraste ≥ 4.5:1.
+5. Componentes prontos:
+   - sanfona: &lt;details class="sanfona"&gt; com .sanfona__seta (CSS em componentes/sanfona.html);
+   - tabela ordenável: &lt;table data-ordenavel&gt; + &lt;th&gt;&lt;button data-ordenar="texto|numero|data"&gt;;
+   - navbar, sumário com Topo/Próxima e rodapé: componentes/shell.css + shell.js;
+   - efeitos e contador: efeitos/efeitos.css + magnet.js; o número final fica no HTML.
+6. Toda animação para em prefers-reduced-motion; nada de biblioteca para efeito decorativo.
+7. Entregue HTML/CSS funcionando sem build e explique quais componentes e regras usou.
+
+Se faltar informação, pergunte antes de inventar número, fonte ou componente.</pre>
+      </div>
+      <p class="lead" style="margin-top:10px">
+        Sem área de transferência? Selecione o texto e use Ctrl+C. O mesmo prompt
+        está em
+        <a href="https://github.com/FinweeJur/controle-popular-design/blob/main/docs/PROMPT-AGENTE.md">docs/PROMPT-AGENTE.md</a>.
+      </p>
+    </section>
+
     <section class="secao" id="robo" aria-labelledby="h-robo">
       <header>
         <h2 id="h-robo" tabindex="-1">Robô (chatbot)</h2>
@@ -388,6 +443,7 @@
       <li><a href="#sanfona">Sanfona</a></li>
       <li><a href="#efeitos">Efeitos</a></li>
       <li><a href="#tabela">Tabela ordenável</a></li>
+      <li><a href="#prompt">Prompt para agente</a></li>
       <li><a href="#robo">Robô</a></li>
     </ol>
     <div class="sumario__acoes">
@@ -469,29 +525,117 @@
 <script>
   // Temas: lista espelhada de temas/temas.json (fetch não lê file://).
   const TEMAS = [
-    { id: "pequi", nome: "Pequi" },
-    { id: "cerrado", nome: "Cerrado" },
-    { id: "mata-atlantica", nome: "Mata Atlântica" },
-    { id: "caatinga", nome: "Caatinga" },
-    { id: "pantanal", nome: "Pantanal" },
-    { id: "light", nome: "Claro" },
-    { id: "dark", nome: "Escuro" },
-    { id: "high-contrast", nome: "Alto contraste" },
+    { id: "pequi", nome: "Pequi", emoji: "🌳", cor: "#f2701d", cor2: "#0d0b08", desc: "Laranja & preto" },
+    { id: "cerrado", nome: "Cerrado", emoji: "🌳", cor: "#c97b5a", cor2: "#ffc300", desc: "Terracota & ipê" },
+    { id: "mata-atlantica", nome: "Mata Atlântica", emoji: "🌳", cor: "#3a6b35", cor2: "#ffd700", desc: "Verde-serra & dourado" },
+    { id: "caatinga", nome: "Caatinga", emoji: "🌳", cor: "#d97724", cor2: "#eab308", desc: "Âmbar & sol do sertão" },
+    { id: "pantanal", nome: "Pantanal", emoji: "🦜", cor: "#0284c7", cor2: "#f59e0b", desc: "Azul-águas & tuiuiú" },
+    { id: "light", nome: "Claro", emoji: "☀️", cor: "#12467b", cor2: "#f7f8fa", desc: "Azul & branco" },
+    { id: "dark", nome: "Escuro", emoji: "🌙", cor: "#4a90d9", cor2: "#0b1220", desc: "Azul-noite & grafite" },
+    { id: "high-contrast", nome: "Alto contraste", emoji: "◐", cor: "#000000", cor2: "#ffffff", desc: "Preto & branco puro" },
   ];
-  const seletor = document.getElementById("tema");
-  TEMAS.forEach(function (t) {
-    const o = document.createElement("option");
-    o.value = t.id;
-    o.textContent = t.nome;
-    seletor.appendChild(o);
-  });
-  function aplicar(id) {
-    document.documentElement.dataset.theme = id;
-    localStorage.setItem("ds-tema", id);
-    seletor.value = id;
+
+  const raizTemas = document.querySelector("[data-temas]");
+  const botaoTemas = raizTemas.querySelector("[data-temas-botao]");
+  const listaTemas = raizTemas.querySelector("[data-temas-lista]");
+  const bolinhasEl = raizTemas.querySelector("[data-temas-bolinhas]");
+  const emojiEl = raizTemas.querySelector("[data-temas-emoji]");
+  const nomeEl = raizTemas.querySelector("[data-temas-nome]");
+
+  function bolinhas(t) {
+    return '<span class="temas__bolinha" style="background:' + t.cor + '"></span>' +
+           '<span class="temas__bolinha" style="background:' + t.cor2 + '"></span>';
   }
-  seletor.addEventListener("change", function () { aplicar(seletor.value); });
+
+  TEMAS.forEach(function (t) {
+    const li = document.createElement("li");
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "temas__opcao";
+    b.dataset.tema = t.id;
+    b.setAttribute("aria-pressed", "false");
+    b.innerHTML =
+      '<span class="temas__bolinhas" aria-hidden="true">' + bolinhas(t) + "</span>" +
+      '<span class="emoji" aria-hidden="true">' + t.emoji + "</span>" +
+      '<span><span class="nome">' + t.nome + "</span><br>" +
+      '<span class="desc">' + t.desc + "</span></span>";
+    b.addEventListener("click", function () {
+      aplicar(t.id);
+      fechar();
+      botaoTemas.focus();
+    });
+    li.appendChild(b);
+    listaTemas.appendChild(li);
+  });
+
+  function aplicar(id) {
+    const t = TEMAS.find(function (x) { return x.id === id; }) || TEMAS[0];
+    document.documentElement.dataset.theme = t.id;
+    localStorage.setItem("ds-tema", t.id);
+    bolinhasEl.innerHTML = bolinhas(t);
+    emojiEl.textContent = t.emoji;
+    nomeEl.textContent = t.nome;
+    Array.prototype.forEach.call(
+      listaTemas.querySelectorAll("[data-tema]"),
+      function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.tema === t.id));
+      }
+    );
+  }
+
+  function abrir() {
+    listaTemas.hidden = false;
+    botaoTemas.setAttribute("aria-expanded", "true");
+  }
+  function fechar() {
+    listaTemas.hidden = true;
+    botaoTemas.setAttribute("aria-expanded", "false");
+  }
+  botaoTemas.addEventListener("click", function () {
+    if (listaTemas.hidden) abrir(); else fechar();
+  });
+  document.addEventListener("click", function (ev) {
+    if (!raizTemas.contains(ev.target)) fechar();
+  });
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key === "Escape") fechar();
+  });
+
   aplicar(localStorage.getItem("ds-tema") || "pequi");
+
+  /* Copiar prompt: muda o rótulo para "Copiado ✓" por 2 s. */
+  Array.prototype.forEach.call(
+    document.querySelectorAll("[data-copiar]"),
+    function (btn) {
+      btn.addEventListener("click", async function () {
+        const alvo = document.querySelector(btn.dataset.copiar);
+        if (!alvo) return;
+        const texto = alvo.textContent.trim();
+        let ok = false;
+        try {
+          await navigator.clipboard.writeText(texto);
+          ok = true;
+        } catch {
+          const area = document.createElement("textarea");
+          area.value = texto;
+          area.setAttribute("readonly", "");
+          area.style.position = "fixed";
+          area.style.opacity = "0";
+          document.body.appendChild(area);
+          area.select();
+          try { ok = document.execCommand("copy"); } catch { ok = false; }
+          document.body.removeChild(area);
+        }
+        const rotulo = btn.dataset.rotulo || btn.textContent;
+        btn.textContent = ok ? "Copiado ✓" : "Selecione e Ctrl+C";
+        btn.classList.toggle("copiado", ok);
+        setTimeout(function () {
+          btn.textContent = rotulo;
+          btn.classList.remove("copiado");
+        }, 2000);
+      });
+    }
+  );
 </script>
 </body>
 </html>
