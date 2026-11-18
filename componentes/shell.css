@@ -120,6 +120,26 @@
   cursor: pointer;
 }
 @media (min-width: 860px) { .topo__menu { display: none; } }
+/* Botão do GitHub na navbar: alvo de 36 px, ícone com o rótulo acessível. */
+.topo__github {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  border: 1px solid var(--cp-border);
+  background: var(--cp-surface);
+  color: var(--cp-text);
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+}
+.topo__github svg { width: 18px; height: 18px; }
+.topo__github:hover {
+  border-color: var(--cp-primary);
+  color: var(--cp-primary);
+  background: color-mix(in srgb, var(--cp-primary) 10%, transparent);
+}
+.topo__github:focus-visible { outline: 2px solid var(--cp-focus); outline-offset: 2px; }
 .topo__gaveta {
   display: none;
   border-top: 1px solid var(--cp-border);
@@ -475,6 +495,30 @@
   text-decoration: none;
 }
 .rodape__topo:hover { border-color: var(--cp-primary); color: var(--cp-primary); }
+/* Link principal do repositório: botão com ícone, não um link perdido. */
+.rodape__github {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  margin-top: 14px;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  border: 1px solid var(--cp-border);
+  background: var(--cp-surface-2);
+  color: var(--cp-text);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+}
+.rodape__github svg { width: 18px; height: 18px; }
+.rodape__github:hover {
+  border-color: var(--cp-primary);
+  color: var(--cp-primary);
+  background: color-mix(in srgb, var(--cp-primary) 10%, transparent);
+}
+.rodape__github:focus-visible { outline: 2px solid var(--cp-focus); outline-offset: 2px; }
 
 /* ── Revelar ao rolar ───────────────────────────────────────────────────── */
 .revelar {

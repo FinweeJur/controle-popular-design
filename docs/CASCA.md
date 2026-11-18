@@ -8,8 +8,10 @@
 ## Navbar superior
 
 - Fica **sticky** no topo, com fundo translúcido e desfoque.
-- Marca à esquerda; links no centro-direita; busca, seletor de tema e menu à
-  direita.
+- Marca à esquerda; links no centro-direita; busca, botão do GitHub, seletor
+  de tema e menu à direita.
+- O **botão do GitHub** é um círculo de 36 px com o ícone (rótulo acessível),
+  para o repositório ficar a um clique de qualquer página.
 - No celular, os links entram numa **gaveta** aberta pelo botão `☰`
   (`data-menu-toggle` + `data-gaveta`).
 - Uma **barra de progresso** de 2 px mostra quanto da página já foi lida
@@ -78,6 +80,8 @@ oferece três botões: **Anterior**, **Topo** e **Próxima ↓**.
 ## Rodapé
 
 - Três colunas: marca + resumo, componentes, documentação.
+- **Link visível para o GitHub** logo abaixo do resumo, em formato de botão
+  com ícone (não um link perdido no meio do texto).
 - Base com copyright e o botão **Voltar ao topo** (alvo de 36 px).
 - Links com hover na cor de acento e sublinhado.
 
